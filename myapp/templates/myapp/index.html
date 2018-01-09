@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 jquery-3.2.1.min.js -->
+		<script src="/static/js/jquery-3.2.1.min.js"></script>
+    <!-- 引入 echarts.js -->
+		<script src="/static/js/echarts.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        var mydate;
+        var mydata;
+				$.get('http://127.0.0.1:8000/date/',function(data,status){
+						mydate=data.split("*");
+						console.log(data.split("*"));
+						});
+				$.get('http://127.0.0.1:8000/data/',function(data,status){
+						mydata=data.split("*");
+						console.log(data.split("*"));
+						for (var i=0; i<mydata.length;i++)
+						{
+							mydata[i]=parseInt(mydata[i]);
+						}
+						console.log(mydata);
+						});
+;
+        //console.log(mytest);
+        //alert(mydate);
+        // 基于准备好的dom，初始化echarts实例
+				$(document).ready(function(){
+					$("button").click(function(){
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '茅台静态市盈率'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: mydate
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'line',
+                data: mydata
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        			myChart.setOption(option);
+//						$("div").show();
+					});
+				});
+    </script>
+<button type="button">show</button>
+</body>
+</html>
